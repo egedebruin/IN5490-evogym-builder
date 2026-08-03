@@ -122,7 +122,7 @@ Tap each square to change its voxel type.
 <div id="grid"></div>
 
 <button onclick="clearGrid()">Clear</button>
-<button onclick="submitRobot()">Submit Robot</button>
+<button id="submitButton" onclick="submitRobot()">Submit Robot</button>
 
 <div id="message"></div>
 
@@ -245,6 +245,8 @@ function validateRobot(){
 
 function submitRobot(){
 
+    const submitButton = document.getElementById("submitButton");
+
     const student = document.getElementById("student").value.trim();
 
     if (student.length === 0) {
@@ -253,6 +255,10 @@ function submitRobot(){
     }
 
     if(!validateRobot()) return;
+
+    // Disable immediately after valid submission
+    submitButton.disabled = true;
+    submitButton.innerHTML = "Submitting...";
 
     const data={
         student: student,
@@ -276,12 +282,19 @@ function submitRobot(){
 
         document.getElementById("student").value="";
 
+        // Keep button disabled permanently
+        submitButton.innerHTML = "Submitted ✓";
+
     })
     .catch(error => {
 
         console.error(error);
 
         message("Submission failed. Try again.", "red");
+
+        // Only re-enable if submission failed
+        submitButton.disabled = false;
+        submitButton.innerHTML = "Submit Robot";
 
     });
 
