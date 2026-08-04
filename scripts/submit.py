@@ -13,6 +13,8 @@ HPC = "eged@hpc.robin.uiocloud.no"
 
 REMOTE_PROJECT = "~/IN5490-evogym-builder"
 
+EVOGYM_PATH = "~/evogym-bayesian-optimization"
+
 SLURM_FILE = "in5490-job.sbatch"
 
 
@@ -47,7 +49,8 @@ print("Running on HPC...")
 remote = f"""
 cd {REMOTE_PROJECT}
 git pull
-cd ..
+cd {EVOGYM_PATH}
+sbatch {SLURM_FILE}
 """
 
 run(["ssh", HPC, remote])
